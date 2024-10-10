@@ -1,4 +1,4 @@
-export const contractAddress = "0x9cE57aeB8cfF86ec10b017AF0A6c7de938C488C8";
+export const contractAddress = "0x658F1B0374ad388E57992f388E3E016B4f8dCB92";
 export const abi = [
   {
     inputs: [],
@@ -284,6 +284,11 @@ export const abi = [
         internalType: "address",
         name: "devWallet",
         type: "address"
+      },
+      {
+        internalType: "bool",
+        name: "isLive",
+        type: "bool"
       }
     ],
     stateMutability: "view",
