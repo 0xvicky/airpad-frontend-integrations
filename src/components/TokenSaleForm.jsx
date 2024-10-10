@@ -165,7 +165,7 @@ const TokenSaleForm = () => {
             <div className='flex items-center border rounded p-2'>
               <input
                 type='text'
-                placeholder='Contact Address*'
+                placeholder='Tokens to transfer*'
                 value={eventData.tokenToTransfer}
                 className='p-2 border-none flex-grow outline-none'
                 onChange={e =>
