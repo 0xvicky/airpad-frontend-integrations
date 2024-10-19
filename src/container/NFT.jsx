@@ -13,8 +13,8 @@ const nftAbi = [
 const NFT = () => {
   const [loading, setLoading] = useState(false); // Loading state for button actions
   const [currentTokenId, setCurrentTokenId] = useState(null);
-  const priceInEth = "5"; // Assuming the price is 0.1 AMB
-  const nftContractAddress = "0x8D93A32B5d89826dA6F76cf5E6679B6Ba4B4051F"; // Replace with your contract address
+  const priceInEth = "1"; // Assuming the price is 0.1 AMB
+  const nftContractAddress = "0x20B5b171218d36c3D0B0d216927ab4d7B6F2f9D1"; // Replace with your contract address
   const totalSupply = "10";
 
   const {chainId, signer, provider} = useContext(AccountContext);
@@ -82,7 +82,7 @@ const NFT = () => {
       ) : (
         <div className='bg-white rounded-lg shadow-lg p-6 max-w-sm space-y-3'>
           <img
-            src={`https://xenplay.s3.ap-south-1.amazonaws.com/adogenfttest/${currentTokenId}.png`}
+            src={`https://adoge-nft.s3.ap-south-1.amazonaws.com/adoge-batch-1/${currentTokenId}.png`}
             alt='NFT'
             className='w-full h-48 object-cover rounded-lg mb-4'
           />
