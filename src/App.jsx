@@ -1,16 +1,32 @@
 import "./App.css";
-import TokenSaleForm from "./components/TokenSaleForm";
+
+import {Routes, Route, Navigate} from "react-router-dom";
+
 import Navbar from "./components/Navbar";
-import BalChecker from "./components/BalChecker";
-import TokenSaleEventList from "./components/Sales";
+import {Airpad, NFT} from "./container";
 function App() {
   return (
     <>
       <Navbar />
-
-      <TokenSaleForm />
-      <BalChecker />
-      <TokenSaleEventList />
+      <Routes>
+        <Route
+          path='/airpad'
+          element={<Airpad />}
+        />
+        <Route
+          path='/nft'
+          element={<NFT />}
+        />
+        <Route
+          path='*'
+          element={
+            <Navigate
+              to='/airpad'
+              replace
+            />
+          }
+        />
+      </Routes>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import {AccountContext} from "../context/AccountContext";
 import {ethers} from "ethers";
+import {Link} from "react-router-dom";
 const Navbar = () => {
   const [account, setAccount] = useState("");
 
@@ -50,18 +51,37 @@ const Navbar = () => {
 
   return (
     <nav className='bg-gradient-to-r from-purple-800 to-white p-4 flex justify-between items-center'>
+      {/* Logo or Title */}
       <div className='text-white text-2xl font-bold'>Airpad</div>
-      {account ? (
-        <div className='bg-white shadow-md shadow-purple-400 text-purple-800 font-medium  px-4 py-2 rounded'>
-          Connected: {account.slice(0, 4)}....{account.slice(-6)}
+
+      {/* Navigation Links */}
+      <div className='flex gap-8'>
+        <div className='flex space-x-4'>
+          <Link to='/airpad'>
+            <button className=' text-purple-800 font-semibold px-4 py-2 border border-solid border-purple-800 rounded'>
+              Airpad
+            </button>
+          </Link>
+          <Link to='/nft'>
+            <button className='text-purple-800 font-semibold px-4 py-2 border border-solid border-purple-800 rounded'>
+              NFT
+            </button>
+          </Link>
         </div>
-      ) : (
-        <button
-          onClick={connectWallet}
-          className='bg-purple-800 text-white font-semibold px-4 py-2 rounded'>
-          Connect Wallet
-        </button>
-      )}
+
+        {/* Wallet Connection */}
+        {account ? (
+          <div className='bg-white shadow-md shadow-purple-400 text-purple-800 font-medium px-4 py-2 rounded'>
+            Connected: {account.slice(0, 4)}....{account.slice(-6)}
+          </div>
+        ) : (
+          <button
+            onClick={connectWallet}
+            className='bg-purple-800 text-white font-semibold px-4 py-2 rounded'>
+            Connect Wallet
+          </button>
+        )}
+      </div>
     </nav>
   );
 };
