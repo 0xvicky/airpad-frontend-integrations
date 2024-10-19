@@ -76,7 +76,8 @@ const NFT = () => {
       {currentTokenId < 0 || currentTokenId === null || chainId != 22040 ? (
         <ClimbingBoxLoader
           size={25}
-          speedMultiplier={2}
+          speedMultiplier={1}
+          color='#6a1b9a'
         />
       ) : (
         <div className='bg-white rounded-lg shadow-lg p-6 max-w-sm space-y-3'>
