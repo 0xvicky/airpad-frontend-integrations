@@ -73,7 +73,7 @@ const NFT = () => {
 
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-100'>
-      {currentTokenId < 0 || currentTokenId === null || chainId != 22040 ? (
+      {currentTokenId < 0 || currentTokenId === null ? (
         <ClimbingBoxLoader
           size={25}
           speedMultiplier={1}
