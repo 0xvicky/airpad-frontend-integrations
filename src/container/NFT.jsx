@@ -6,7 +6,7 @@ import {ClimbingBoxLoader} from "react-spinners";
 
 // NFT Contract ABI
 const nftAbi = [
-  "function safeMint(address to, string memory uri) public payable",
+  "function safeMint(address to) public payable",
   "function getTokenId() public view returns (uint256)"
 ];
 
@@ -14,24 +14,25 @@ const NFT = () => {
   const [loading, setLoading] = useState(false); // Loading state for button actions
   const [currentTokenId, setCurrentTokenId] = useState(null);
   const priceInEth = "5"; // Assuming the price is 0.1 AMB
-  const nftContractAddress = "0x26ef14990b50923B08B7B3707B5d1BCbA9eCA8d2"; // Replace with your contract address
+  const nftContractAddress = "0x8D93A32B5d89826dA6F76cf5E6679B6Ba4B4051F"; // Replace with your contract address
   const totalSupply = "10";
 
-  const {chainId, signer} = useContext(AccountContext);
+  const {chainId, signer, provider} = useContext(AccountContext);
 
   useEffect(() => {
-    // Initialize provider and signer on component mount
     const initProvider = async () => {
-      await fetchCurrentTokenId(signer);
+      if (signer) {
+        await fetchCurrentTokenId(signer); // Pass signer instead of provider
+      }
     };
 
     initProvider();
-  }, [signer]);
+  }, [signer]); // Trigger only when signer is available
 
   // Fetch the current token ID from the NFT contract
   const fetchCurrentTokenId = async signer => {
     try {
-      const nftContract = new ethers.Contract(nftContractAddress, nftAbi, signer);
+      const nftContract = new ethers.Contract(nftContractAddress, nftAbi, signer); // Use signer instead of provider
       const tokenId = await nftContract.getTokenId();
       setCurrentTokenId(Number(tokenId)); // Store tokenId in state
       console.log(Number(tokenId));
@@ -42,19 +43,18 @@ const NFT = () => {
   };
 
   const handleMint = async () => {
-    const tokenId = await fetchCurrentTokenId(signer);
+    const tokenId = await fetchCurrentTokenId(signer); //1
     if (tokenId <= totalSupply) {
       try {
         setLoading(true);
         const nftContract = new ethers.Contract(nftContractAddress, nftAbi, signer);
         const userAddress = await signer.getAddress();
+        console.log(userAddress);
 
-        // Construct the tokenUri based on the current tokenId
-
-        const tokenUri = `${tokenId}.json`;
+        // Construct the tokenUri based on the current tokenI
 
         // Convert price from string to AMB using ethers' parseUnits function
-        const tx = await nftContract.safeMint(userAddress, tokenUri, {
+        const tx = await nftContract.safeMint(userAddress, {
           value: ethers.parseEther(priceInEth)
         });
         await tx.wait(); // Wait for minting transaction to complete
@@ -73,7 +73,7 @@ const NFT = () => {
 
   return (
     <div className='flex justify-center items-center min-h-screen bg-gray-100'>
-      {currentTokenId < 0 || currentTokenId === null ? (
+      {currentTokenId < 0 || currentTokenId === null || chainId != 22040 ? (
         <ClimbingBoxLoader
           size={25}
           speedMultiplier={1}
