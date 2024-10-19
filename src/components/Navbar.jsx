@@ -4,6 +4,7 @@ import {ethers} from "ethers";
 import {Link} from "react-router-dom";
 const Navbar = () => {
   const [account, setAccount] = useState("");
+  const [chainId, setChainId] = useState();
 
   const accountCtx = useContext(AccountContext);
 
@@ -12,13 +13,13 @@ const Navbar = () => {
       accountCtx.setAccount(account);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const chainId = provider._network.chainId.toString();
-      accountCtx.setChainId(chainId);
+      const chain = provider._network.chainId.toString();
+      accountCtx.setChainId(chain);
       accountCtx.setProvider(provider);
       accountCtx.setSigner(signer);
     };
     getProv();
-  }, [account]);
+  }, [account, chainId]);
 
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -35,15 +36,27 @@ const Navbar = () => {
 
   useEffect(() => {
     if (window.ethereum) {
+      // Listen for account changes
       window.ethereum.on("accountsChanged", accounts => {
         setAccount(accounts[0] || "");
       });
+
+      // Listen for network/chain changes
+      window.ethereum.on("chainChanged", chain => {
+        // Optionally, handle any necessary cleanup or state update here
+        console.log(`Chain changed to: ${Number(chain)}`);
+        setChainId(Number(chain));
+      });
     }
 
+    // Cleanup listeners when the component unmounts
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener("accountsChanged", accounts => {
           setAccount(accounts[0] || "");
+        });
+        window.ethereum.removeListener("chainChanged", chainId => {
+          console.log(`Chain changed to: ${chainId}`);
         });
       }
     };
